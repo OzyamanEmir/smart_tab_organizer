@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Tab Organizer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       HEADER BAR
+  ═══════════════════════════════════════════ -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="header-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6z"/>
+          <path d="M4 10h16"/>
+          <path d="M10 4v6"/>
+        </svg>
+      </div>
+      <div class="header-title-wrap">
+        <h1 class="header-title">Smart Tab Organizer</h1>
+        <span class="header-badge">AI-Powered</span>
+      </div>
+    </div>
+    <button class="icon-btn" id="settingsBtn" title="Ayarlar" aria-label="Ayarları aç/kapat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+    </button>
+  </header>
+
+  <!-- ═══════════════════════════════════════════
+       SETTINGS PANEL (Collapsible)
+  ═══════════════════════════════════════════ -->
+  <section class="settings-panel" id="settingsPanel" aria-hidden="true">
+    <div class="settings-inner">
+      <p class="settings-label-top">AI Provider & API Key</p>
+
+      <div class="form-row">
+        <label class="field-label" for="providerSelect">Provider</label>
+        <select class="select-field" id="providerSelect">
+          <option value="gemini">Google Gemini</option>
+          <option value="openai">OpenAI ChatGPT</option>
+          <option value="claude">Anthropic Claude</option>
+          <option value="grok">xAI Grok</option>
+          <option value="kimi">Moonshot Kimi</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label class="field-label" for="modelSelect">Model</label>
+        <select class="select-field" id="modelSelect">
+          <!-- Dynamically populated by popup.js -->
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label class="field-label" for="apiKeyInput">API Key</label>
+        <input
+          type="password"
+          class="text-field"
+          id="apiKeyInput"
+          placeholder="Paste your API key here..."
+          autocomplete="off"
+          spellcheck="false"
+        />
+      </div>
+
+      <button class="btn btn-secondary" id="saveCredBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+          <polyline points="17 21 17 13 7 13 7 21"/>
+          <polyline points="7 3 7 8 15 8"/>
+        </svg>
+        Save Credentials
+      </button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       MAIN DASHBOARD
+  ═══════════════════════════════════════════ -->
+  <main class="main-panel">
+
+    <!-- Active Config Indicator -->
+    <div class="config-indicator" id="configIndicator">
+      <span class="indicator-dot" id="indicatorDot"></span>
+      <span class="indicator-text" id="indicatorText">No API key configured</span>
+    </div>
+
+    <!-- Categories Section -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-title">Categories</span>
+        <span class="section-hint">Tab grupları için kategoriler</span>
+      </div>
+
+      <div class="category-list" id="categoryList">
+        <!-- Default categories injected by popup.js -->
+      </div>
+
+      <button class="btn btn-add" id="addCategoryBtn" title="Kategori ekle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+          <line x1="12" y1="5" x2="12" y2="19"/>
+          <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        Add Category
+      </button>
+    </section>
+
+    <!-- Options Section -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-title">Options</span>
+      </div>
+
+      <div class="toggle-row" id="junksToggleRow">
+        <div class="toggle-info">
+          <span class="toggle-label">Junks Too</span>
+          <span class="toggle-desc">Eşleşmeyen sekmeleri "Junks" grubuna ekle</span>
+        </div>
+        <button class="toggle-switch" id="junksToggle" role="switch" aria-checked="false">
+          <span class="toggle-thumb"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Primary Action -->
+    <button class="btn btn-primary" id="groupBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      </svg>
+      Sekmeleri Düzenle
+    </button>
+
+    <!-- Status Display -->
+    <div class="status-box" id="statusBox" aria-live="polite">
+      <div class="status-spinner" id="statusSpinner" aria-hidden="true">
+        <div class="spinner-ring"></div>
+      </div>
+      <span class="status-text" id="statusText">Hazır</span>
+    </div>
+
+  </main>
+
+  <script src="popup.js"></script>
+</body>
+</html>

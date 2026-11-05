@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Smart Tab Organizer",
+  "version": "3.0.0",
+  "description": "Organize browser tabs intelligently using your own AI API key — Gemini, OpenAI, Claude, Grok, or Kimi.",
+  "permissions": [
+    "tabs",
+    "tabGroups",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://generativelanguage.googleapis.com/*",
+    "https://api.openai.com/*",
+    "https://api.anthropic.com/*",
+    "https://api.x.ai/*",
+    "https://api.moonshot.cn/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
